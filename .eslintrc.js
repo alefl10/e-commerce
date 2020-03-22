@@ -1,4 +1,5 @@
 module.exports = {
+	"parser": "babel-eslint",
     "extends": ["airbnb", "plugin:react/recommended"],
     "rules": {
       "no-console": 0,
