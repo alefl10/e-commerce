@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 /* *** COMPONENTS *** */
 import MenuItem from '../MenuItem/MenuItem';
 
+/* *** STYLES *** */
 import './Directory.scss';
 
 class Directory extends Component {
