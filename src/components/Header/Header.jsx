@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 /* *** COMPONENTS *** */
 import { ReactComponent as Logo } from '../../assets/crown.svg';
@@ -41,4 +42,8 @@ Header.defaultProps = {
 	currentUser: undefined,
 };
 
-export default Header;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Header);
