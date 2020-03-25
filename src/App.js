@@ -10,8 +10,8 @@ import HomePage from './pages/HomePage/HomePage';
 import ShopPage from './pages/ShopPage/ShopPage';
 import Auth from './pages/Auth/Auth';
 
-/* *** ACTIONS *** */
-import { setCurrentUser } from './redux/user/userActions';
+/* *** REDUX *** */
+import { setCurrentUserAction } from './redux/user/userActions';
 
 /* *** STYLES *** */
 import './App.css';
@@ -65,6 +65,11 @@ class App extends Component {
 
 App.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
+	currentUser: PropTypes.shape(),
+};
+
+App.defaultProps = {
+	currentUser: null,
 };
 
 const mapStateToProps = ({ user }) => ({
@@ -72,7 +77,7 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	setCurrentUser: user => dispatch(setCurrentUser(user)),
+	setCurrentUser: user => dispatch(setCurrentUserAction(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

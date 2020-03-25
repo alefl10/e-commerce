@@ -1,9 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+/* *** REDUX *** */
 import { connect } from 'react-redux';
 
 /* *** COMPONENTS *** */
+import CartIcon from '../CartIcon/CartIcon';
+import CartDropdown from '../CartDropdown/CartDropdown';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 /* *** FIREBASE *** */
@@ -12,7 +18,7 @@ import { auth } from '../../firebase/firebase.utils';
 /* *** STYLES *** */
 import './Header.scss';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
 	<div className="header">
 		<Link to="/" className="logo-container">
 			<Logo className="logo" />
@@ -30,20 +36,26 @@ const Header = ({ currentUser }) => (
 					: <Link className="option" to="/signin">SIGN IN</Link>
 
 			}
+			<CartIcon />
 		</div>
+		{
+			hidden ? null : <CartDropdown />
+		}
 	</div>
 );
 
 Header.propTypes = {
 	currentUser: PropTypes.shape(),
+	hidden: PropTypes.bool.isRequired,
 };
 
 Header.defaultProps = {
 	currentUser: undefined,
 };
 
-const mapStateToProps = state => ({
-	currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden }}) => ({
+	currentUser,
+	hidden,
 });
 
 export default connect(mapStateToProps)(Header);
