@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 /* *** REDUX *** */
 import { connect } from 'react-redux';
 import { toggleCartHiddenAction } from '../../redux/cart/cartActions';
+import { selectCartItemsCount } from '../../redux/cart/cartSelectors';
 
 /* *** COMPONENTS *** */
 import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
@@ -13,20 +14,25 @@ import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
 /* *** STYLES *** */
 import './CartIcon.scss';
 
-const CartIcon = ({ toggleCartHidden }) => (
+const CartIcon = ({ toggleCartHidden, itemCount }) => (
 	<div className="cart-icon" onClick={toggleCartHidden}>
 		<ShoppingIcon className="shopping-icon" />
-		<div className="item-count">0</div>
+		<div className="item-count">{itemCount}</div>
 	</div>
 );
 
 CartIcon.propTypes = {
 	toggleCartHidden: PropTypes.func.isRequired,
+	itemCount: PropTypes.number.isRequired,
 };
+
+const mapStateToProps = state => ({
+	itemCount: selectCartItemsCount(state),
+});
 
 const mapDispatchToProps = dispatch => ({
 	toggleCartHidden: () => dispatch(toggleCartHiddenAction()),
 });
 
 
-export default connect(null, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
