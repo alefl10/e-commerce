@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 /* *** REDUX *** */
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../redux/cart/cartSelectors';
 
 /* *** COMPONENTS *** */
@@ -27,8 +28,8 @@ CartDropdown.propTypes = {
 	cartItems: PropTypes.arrayOf(PropTypes.shape).isRequired,
 };
 
-const mapStateToProps = state => ({
-	cartItems: selectCartItems(state),
+const mapStateToProps = createStructuredSelector({
+	cartItems: selectCartItems,
 });
 
 export default connect(mapStateToProps)(CartDropdown);
