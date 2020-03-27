@@ -1,4 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/* *** REDUX *** */
+import { connect } from 'react-redux';
+import { hideCartAction } from '../../redux/cart/cartActions';
 
 /* *** COMPONENTS *** */
 import MenuItem from '../MenuItem/MenuItem';
@@ -50,8 +57,9 @@ class Directory extends Component {
 
 	render() {
 		const { sections } = this.state;
+		const { hideCart } = this.props;
 		return (
-			<div className="directory-menu">
+			<div className="directory-menu" onClick={() => hideCart()}>
 				{sections.map((
 					{
 						id,
@@ -74,4 +82,12 @@ class Directory extends Component {
 	}
 }
 
-export default Directory;
+Directory.propTypes = {
+	hideCart: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+	hideCart: () => dispatch(hideCartAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Directory);

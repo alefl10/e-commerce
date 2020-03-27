@@ -1,5 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+/* *** REDUX *** */
+import { connect } from 'react-redux';
+import { hideCartAction } from '../../redux/cart/cartActions';
 
 /* *** COMPONENTS *** */
 import CollectionItem from '../CollectionItem/CollectionItem';
@@ -7,8 +13,8 @@ import CollectionItem from '../CollectionItem/CollectionItem';
 /* *** STYLES *** */
 import './CollectionPreview.scss';
 
-const CollectionPreview = ({ title, items }) => (
-	<div className="collection-preview">
+const CollectionPreview = ({ title, items, hideCart }) => (
+	<div className="collection-preview" onClick={() => hideCart()}>
 		<h1 className="title">{title.toUpperCase()}</h1>
 		<div className="preview">
 			{items
@@ -26,6 +32,11 @@ CollectionPreview.propTypes = {
 	items: PropTypes.arrayOf(
 		PropTypes.shape().isRequired,
 	).isRequired,
+	hideCart: PropTypes.func.isRequired,
 };
 
-export default CollectionPreview;
+const mapDispatchToProps = dispatch => ({
+	hideCart: () => dispatch(hideCartAction()),
+});
+
+export default connect(null, mapDispatchToProps)(CollectionPreview);
