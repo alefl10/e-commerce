@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 
 /* *** REDUX *** */
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { hideCartAction } from '../../redux/cart/cartActions';
+import { selectCartHidden } from '../../redux/cart/cartSelectors';
 
 /* *** COMPONENTS *** */
 import CollectionItem from '../CollectionItem/CollectionItem';
@@ -13,8 +15,13 @@ import CollectionItem from '../CollectionItem/CollectionItem';
 /* *** STYLES *** */
 import './CollectionPreview.scss';
 
-const CollectionPreview = ({ title, items, hideCart }) => (
-	<div className="collection-preview" onClick={() => hideCart()}>
+const CollectionPreview = ({
+	title,
+	items,
+	hideCart,
+	hidden,
+}) => (
+	<div className="collection-preview" onClick={hidden ? null : () => hideCart()}>
 		<h1 className="title">{title.toUpperCase()}</h1>
 		<div className="preview">
 			{items
@@ -33,10 +40,15 @@ CollectionPreview.propTypes = {
 		PropTypes.shape().isRequired,
 	).isRequired,
 	hideCart: PropTypes.func.isRequired,
+	hidden: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = createStructuredSelector({
+	hidden: selectCartHidden,
+});
 
 const mapDispatchToProps = dispatch => ({
 	hideCart: () => dispatch(hideCartAction()),
 });
 
-export default connect(null, mapDispatchToProps)(CollectionPreview);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionPreview);

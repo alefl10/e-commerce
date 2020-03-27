@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 
 /* *** REDUX *** */
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { hideCartAction } from '../../redux/cart/cartActions';
+import { selectCartHidden } from '../../redux/cart/cartSelectors';
 
 /* *** COMPONENTS *** */
 import MenuItem from '../MenuItem/MenuItem';
@@ -57,9 +59,10 @@ class Directory extends Component {
 
 	render() {
 		const { sections } = this.state;
-		const { hideCart } = this.props;
+		const { hideCart, hidden } = this.props;
+
 		return (
-			<div className="directory-menu" onClick={() => hideCart()}>
+			<div className="directory-menu" onClick={hidden ? null : () => hideCart()}>
 				{sections.map((
 					{
 						id,
@@ -84,10 +87,15 @@ class Directory extends Component {
 
 Directory.propTypes = {
 	hideCart: PropTypes.func.isRequired,
+	hidden: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = createStructuredSelector({
+	hidden: selectCartHidden,
+});
 
 const mapDispatchToProps = dispatch => ({
 	hideCart: () => dispatch(hideCartAction()),
 });
 
-export default connect(null, mapDispatchToProps)(Directory);
+export default connect(mapStateToProps, mapDispatchToProps)(Directory);
