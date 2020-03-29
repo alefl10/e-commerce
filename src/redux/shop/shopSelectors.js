@@ -7,3 +7,14 @@ export const selectShopCollections = createSelector(
 	[selectShop],
 	shop => shop.collections,
 );
+
+// Convert ShopData collections object into an array
+export const selectCollectionsForPreview = createSelector(
+	[selectShopCollections],
+	collections => Object.keys(collections).map(key => collections[key]),
+);
+
+export const selectCollection = collectionUrlParam => createSelector(
+	[selectShopCollections],
+	collections => collections[collectionUrlParam],
+);
