@@ -22,7 +22,7 @@ const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends Component {
-	unsubscribeFromSnapshot = null;
+	// unsubscribeFromSnapshot = null;
 
 	constructor(props) {
 		super(props);
@@ -32,11 +32,13 @@ class ShopPage extends Component {
 	componentDidMount() {
 		const { updateCollections } = this.props;
 		const collectionRef = firestore.collection('collections');
-		this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
-			const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-			updateCollections(collectionsMap);
-			this.setState({ isLoading: false });
-		});
+		// Promise-style connection to firebase
+		collectionRef.get()
+			.then(snapshot => {
+				const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+				updateCollections(collectionsMap);
+				this.setState({ isLoading: false });
+			});
 	}
 
 	render() {
