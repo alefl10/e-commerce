@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import { FETCH_COLLECTIONS_START } from './shopTypes';
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 import { fetchCollectionsSuccessAction, fetchCollectionsFailureAction } from './shopActions';
@@ -28,5 +28,6 @@ export function* fetchCollectionsAsync() {
 
 export function* fetchCollectionsStart() {
 	// It creates a non-blocking call in order to continuing running our application and next sagas
-	yield takeEvery(FETCH_COLLECTIONS_START, fetchCollectionsAsync);
+	// It only takes the last fired FETCH_COLLECTIONS_START action
+	yield takeLatest(FETCH_COLLECTIONS_START, fetchCollectionsAsync);
 }
