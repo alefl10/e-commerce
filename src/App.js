@@ -27,24 +27,25 @@ class App extends Component {
 
 	componentDidMount() {
 		const { setCurrentUser } = this.props;
+		
 		// auth allows us to know when a user has been signed in without re-mounting the component
-		this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-			if (userAuth) {
-				const userRef = await createUserProfileDocument(userAuth);
+		// this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+		// 	if (userAuth) {
+		// 		const userRef = await createUserProfileDocument(userAuth);
 
-				// We subscribe to the userRef to listen to any changes to that user's data
-				userRef.onSnapshot(snapShot => {
-					const { id } = snapShot;
-					setCurrentUser({
-						id,
-						...snapShot.data(),
-					});
-				});
-			} else {
-				// If userAuth is null we assign it to current user (not logged in)
-				setCurrentUser(userAuth);
-			}
-		});
+		// 		// We subscribe to the userRef to listen to any changes to that user's data
+		// 		userRef.onSnapshot(snapShot => {
+		// 			const { id } = snapShot;
+		// 			setCurrentUser({
+		// 				id,
+		// 				...snapShot.data(),
+		// 			});
+		// 		});
+		// 	} else {
+		// 		// If userAuth is null we assign it to current user (not logged in)
+		// 		setCurrentUser(userAuth);
+		// 	}
+		// });
 	}
 
 	componentWillUnmount() {

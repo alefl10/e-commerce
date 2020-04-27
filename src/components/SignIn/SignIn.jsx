@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /* *** COMPONENTS *** */
 import FormInput from '../FormInput/FormInput';
@@ -6,6 +7,10 @@ import CustomButton from '../CustomButton/CustomButton';
 
 /* *** FIREBASE *** */
 import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+/* *** REDUX *** */
+import { connect } from 'react-redux';
+import { googleSignInStartAction } from '../../redux/user/userActions';
+
 
 /* *** STYLES *** */
 import './SignIn.scss';
@@ -20,17 +25,18 @@ class SignIn extends Component {
 		};
 	}
 
-	handleSubmit = async event => {
-		event.preventDefault();
-		const { email, password } = this.state;
+	// handleSubmit = async event => {
+	// 	event.preventDefault();
+	// 	const { email, password } = this.state;
+	// 	googleSignInStartAction();
 
-		try {
-			await auth.signInWithEmailAndPassword(email, password);
-			this.setState({ email: '', password: '' });
-		} catch (error) {
-			console.error(error);
-		}
-	}
+	// 	try {
+	// 		await auth.signInWithEmailAndPassword(email, password);
+	// 		this.setState({ email: '', password: '' });
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// }
 
 	handleChange = event => {
 		const { value, name } = event.target;
@@ -39,6 +45,7 @@ class SignIn extends Component {
 
 	render() {
 		const { email, password } = this.state;
+		const { googleSignInStart } = this.props;
 		return (
 			<div className="sign-in">
 				<h2>I already have an account</h2>
@@ -62,9 +69,9 @@ class SignIn extends Component {
 						required
 					/>
 					<div className="buttons">
-						<CustomButton type="submit">Sign In</CustomButton>
+						<CustomButton type="button">Sign In</CustomButton>
 						<CustomButton
-							onClick={signInWithGoogle}
+							onClick={googleSignInStart}
 							isGoogleSignIn
 						>
 							Sign In with Google
@@ -76,4 +83,12 @@ class SignIn extends Component {
 	}
 }
 
-export default SignIn;
+SignIn.propTypes = {
+	googleSignInStart: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+	googleSignInStart: () => dispatch(googleSignInStartAction()),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
