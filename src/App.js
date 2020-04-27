@@ -5,11 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 /* *** REDUX *** */
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setCurrentUserAction } from './redux/user/userActions';
 import { selectCurrentUser } from './redux/user/userSelectors';
-
-/* *** FIREBASE *** */
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 /* *** COMPONENTS *** */
 import Header from './components/Header/Header';
@@ -23,30 +19,6 @@ import './App.css';
 
 class App extends Component {
 	unsubscribeFromAuth = null;
-
-
-	componentDidMount() {
-		const { setCurrentUser } = this.props;
-		
-		// auth allows us to know when a user has been signed in without re-mounting the component
-		// this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-		// 	if (userAuth) {
-		// 		const userRef = await createUserProfileDocument(userAuth);
-
-		// 		// We subscribe to the userRef to listen to any changes to that user's data
-		// 		userRef.onSnapshot(snapShot => {
-		// 			const { id } = snapShot;
-		// 			setCurrentUser({
-		// 				id,
-		// 				...snapShot.data(),
-		// 			});
-		// 		});
-		// 	} else {
-		// 		// If userAuth is null we assign it to current user (not logged in)
-		// 		setCurrentUser(userAuth);
-		// 	}
-		// });
-	}
 
 	componentWillUnmount() {
 		// Free App's memory once a user signs out
@@ -71,7 +43,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-	setCurrentUser: PropTypes.func.isRequired,
 	currentUser: PropTypes.shape(),
 };
 
@@ -83,8 +54,4 @@ const mapStateToProps = createStructuredSelector({
 	currentUser: selectCurrentUser,
 });
 
-const mapDispatchToProps = dispatch => ({
-	setCurrentUser: user => dispatch(setCurrentUserAction(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
