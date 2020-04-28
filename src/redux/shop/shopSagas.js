@@ -1,4 +1,6 @@
-import { takeLatest, call, put, all } from 'redux-saga/effects';
+import {
+	takeLatest, call, put, all,
+} from 'redux-saga/effects';
 import { FETCH_COLLECTIONS_START } from './shopTypes';
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 import { fetchCollectionsSuccessAction, fetchCollectionsFailureAction } from './shopActions';

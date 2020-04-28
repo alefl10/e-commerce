@@ -1,12 +1,14 @@
 /* eslint-disable no-alert */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/* *** REDUX *** */
+import { connect } from 'react-redux';
+import { signUpStartAction } from '../../redux/user/userActions';
 
 /* *** COMPONENTS *** */
 import FormInput from '../FormInput/FormInput';
 import CustomButton from '../CustomButton/CustomButton';
-
-/* *** FIREBASE *** */
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 /* *** STYLES *** */
 import './SignUp.scss';
@@ -39,21 +41,8 @@ class SignUp extends Component {
 			return;
 		}
 
-		try {
-			// Create user in firebase
-			const { user } = await auth.createUserWithEmailAndPassword(email, password);
-			// Create user's profile document
-			await createUserProfileDocument(user, { displayName });
-			// Clear signup form
-			this.setState({
-				displayName: '',
-				email: '',
-				password: '',
-				confirmPassword: '',
-			});
-		} catch (error) {
-			console.error(error);
-		}
+		const { signUpStart } = this.props;
+		signUpStart({ email, password, displayName });
 	}
 
 	handleChange = event => {
@@ -112,4 +101,12 @@ class SignUp extends Component {
 	}
 }
 
-export default SignUp;
+SignUp.propTypes = {
+	signUpStart: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+	signUpStart: userCredentials => dispatch(signUpStartAction(userCredentials)),
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);

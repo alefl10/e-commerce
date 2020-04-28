@@ -7,6 +7,9 @@ import {
 	SIGN_OUT_START,
 	SIGN_OUT_SUCCESS,
 	SIGN_OUT_FAILURE,
+	SIGN_UP_START,
+	SIGN_UP_SUCCESS,
+	SIGN_UP_FAILURE,
 } from './userTypes';
 
 export const googleSignInStartAction = () => ({
@@ -43,4 +46,19 @@ export const signOutSuccessAction = () => ({
 export const signOutFailureAction = error => ({
 	type: SIGN_OUT_FAILURE,
 	payload: error,
+});
+
+export const signUpStartAction = userCredentials => ({
+	type: SIGN_UP_START,
+	payload: userCredentials,
+});
+
+export const signUpSuccessAction = ({ user, additionalData }) => ({
+	type: SIGN_UP_SUCCESS,
+	payload: { user, additionalData },
+});
+
+export const signUpFailureAction = error => ({
+	type: SIGN_UP_FAILURE,
+	payloadL: error,
 });
