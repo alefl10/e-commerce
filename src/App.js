@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 /* *** REDUX *** */
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { checkUserSessionAction } from './redux/user/userActions';
 import { selectCurrentUser } from './redux/user/userSelectors';
 
 /* *** COMPONENTS *** */
@@ -19,6 +20,11 @@ import './App.css';
 
 class App extends Component {
 	unsubscribeFromAuth = null;
+
+	componentDidMount() {
+		const { checkUserSession } = this.props;
+		checkUserSession();
+	}
 
 	componentWillUnmount() {
 		// Free App's memory once a user signs out
@@ -44,6 +50,7 @@ class App extends Component {
 
 App.propTypes = {
 	currentUser: PropTypes.shape(),
+	checkUserSession: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
@@ -54,4 +61,8 @@ const mapStateToProps = createStructuredSelector({
 	currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+	checkUserSession: () => dispatch(checkUserSessionAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

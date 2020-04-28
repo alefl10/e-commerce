@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# System files
+.DS_Store
+root/.DS_Store
+root/scss/.DS_Store
+
 # dependencies
 /node_modules
 

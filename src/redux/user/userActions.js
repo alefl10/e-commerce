@@ -3,6 +3,7 @@ import {
 	EMAIL_SIGN_IN_START,
 	SIGN_IN_SUCCESS,
 	SIGN_IN_FAILURE,
+	CHECK_USER_SESSION,
 } from './userTypes';
 
 export const googleSignInStartAction = () => ({
@@ -24,3 +25,6 @@ export const signInFailureAction = error => ({
 	payload: error,
 });
 
+export const checkUserSessionAction = () => ({
+	type: CHECK_USER_SESSION,
+});
