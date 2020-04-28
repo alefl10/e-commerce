@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 /* *** REDUX *** */
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { signOutStartAction } from '../../redux/user/userActions';
 import { selectCurrentUser } from '../../redux/user/userSelectors';
 import { selectCartHidden } from '../../redux/cart/cartSelectors';
 
@@ -15,13 +16,10 @@ import CartIcon from '../CartIcon/CartIcon';
 import CartDropdown from '../CartDropdown/CartDropdown';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-/* *** FIREBASE *** */
-import { auth } from '../../firebase/firebase.utils';
-
 /* *** STYLES *** */
 import './Header.scss';
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
 	<div className="header">
 		<Link to="/" className="logo-container">
 			<Logo className="logo" />
@@ -35,7 +33,7 @@ const Header = ({ currentUser, hidden }) => (
 			</Link>
 			{
 				currentUser
-					? <div className="option" onClick={() => auth.signOut()}>SIGN OUT</div>
+					? <div className="option" onClick={signOutStart}>SIGN OUT</div>
 					: <Link className="option" to="/signin">SIGN IN</Link>
 
 			}
@@ -50,6 +48,7 @@ const Header = ({ currentUser, hidden }) => (
 Header.propTypes = {
 	currentUser: PropTypes.shape(),
 	hidden: PropTypes.bool.isRequired,
+	signOutStart: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {
@@ -61,4 +60,8 @@ const mapStateToProps = createStructuredSelector({
 	hidden: selectCartHidden,
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+	signOutStart: () => dispatch(signOutStartAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
